@@ -1,16 +1,20 @@
 import './App.css';
-import { useEffect} from 'react';
+import { useEffect, useState} from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import { getPhotos } from './galleryState';
 
 function App() {
   const dispatch = useDispatch();
   const photos = useSelector((state) => state.gallery.photos);
+  const [page, setPage] = useState(3);
 
   useEffect(() => {
-    dispatch(getPhotos());
-  }, [dispatch]);
-  console.log(photos);
+    dispatch(getPhotos(page));
+  }, [dispatch, page]);
+
+  const handleViewMore = () => {
+    setPage(prevPage => prevPage + 1);
+  }
 
   return (
     <div className="App">
@@ -28,7 +32,7 @@ function App() {
           />
         ))}
       </div>
-      <button>VIEW MORE</button>
+      <button onClick={handleViewMore}>VIEW MORE</button>
     </div>
   );
 }
