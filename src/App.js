@@ -3,18 +3,17 @@ import { useEffect, useState} from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import { getPhotos } from './galleryState';
 
+import Pagination from './Pagination';
+
 function App() {
   const dispatch = useDispatch();
   const photos = useSelector((state) => state.gallery.photos);
-  const [page, setPage] = useState(3);
+  const [page, setPage] = useState(1);
+  const totalPages = 10;
 
   useEffect(() => {
     dispatch(getPhotos(page));
   }, [dispatch, page]);
-
-  const handleViewMore = () => {
-    setPage(prevPage => prevPage + 1);
-  }
 
   return (
     <div className="App">
@@ -32,7 +31,12 @@ function App() {
           />
         ))}
       </div>
-      <button onClick={handleViewMore}>VIEW MORE</button>
+      
+      <Pagination 
+        page={page}
+        setPage={setPage}
+        totalPages={totalPages}
+      />
     </div>
   );
 }
